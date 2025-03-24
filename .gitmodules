@@ -1,0 +1,3 @@
+[submodule "frontend/lib/phobos-elements"]
+	path = frontend/lib/phobos-elements
+	url = https://github.com/PRIM-EDV/phobos-elements
