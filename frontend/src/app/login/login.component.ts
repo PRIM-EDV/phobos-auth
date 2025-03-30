@@ -5,7 +5,7 @@ import { PhElementsModule } from '../../../lib/phobos-elements/ph-elements.modul
 @Component({
   selector: 'app-login',
   imports: [
-    PhElementsModule
+    PhElementsModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
