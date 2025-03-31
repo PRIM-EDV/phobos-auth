@@ -1,5 +1,7 @@
-import { Controller, Get, Request, Res, Response } from '@nestjs/common';
-import { OAuth2Service } from 'src/core/auth/oauth2.service';
+import { Controller, Get, Request, Res } from '@nestjs/common';
+import { Response } from 'express';
+
+import { OAuth2Service } from 'src/oauth2/oauth2.service';
 
 @Controller('api/oauth2')
 export class OAuth2ApiController {
@@ -10,6 +12,7 @@ export class OAuth2ApiController {
   @Get('authorize')
   async authorize(@Request() req, @Res({ passthrough: true }) response: Response) {
     const codeChallenge = req.query.code_challenge;
+    const redirectUri = req.query.redirect_uri; 
 
     if (typeof(codeChallenge) == 'string')  { 
       const sessionId = await this.oauth2Service.getOAuth2Session(req.query);
