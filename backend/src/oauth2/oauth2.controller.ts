@@ -4,7 +4,7 @@ import { Response } from 'express';
 import { OAuth2Service } from 'src/oauth2/oauth2.service';
 
 @Controller('api/oauth2')
-export class OAuth2ApiController {
+export class OAuth2Controller {
   constructor(
     private readonly oauth2Service: OAuth2Service
   ) {}
