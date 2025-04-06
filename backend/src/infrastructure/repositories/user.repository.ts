@@ -12,8 +12,8 @@ export class UserRepository implements IUserRepository {
         @InjectModel("UserDbo") private userModel: Model<UserDocument>
     ) {}
 
-    public async delete(user: User): Promise<void> {
-        await this.userModel.deleteOne({username: user.username}).exec();
+    public async delete(username: string): Promise<void> {
+        await this.userModel.deleteOne({username: username}).exec();
     }
 
     public async store(user: User): Promise<void> {
