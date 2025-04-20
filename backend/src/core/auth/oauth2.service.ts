@@ -13,32 +13,11 @@ export class OAuth2Service {
     }
 
     /**
-     * Get the authorization code for the session.
-     * 
-     * @param {string} sessionId 
-     * @returns {Promise<string>} - The authorization code 
-     */
-    public async getOAuth2AuthorizationCode(sessionId: string): Promise<string> {
-        const authorization_code = await this.generateAuthorizationCode(); 
-        // const session = this.sesssionStore.get(sessionId);
-
-        // if (session) {
-        //     session.authorization_code = authorization_code;
-        //     this.sesssionStore.set(sessionId, session);
-
-        //     return authorization_code;
-        // } else {
-        //     throw new Error('Session not found');
-        // }
-        return authorization_code
-    }
-
-    /**
      * Generate a random size 64 string as authorization code.
      * 
      * @returns {Promise<string>} - The generated authorization code
      */
-    private async generateAuthorizationCode(): Promise<string> {
+    public async generateAuthorizationCode(): Promise<string> {
         return new Promise((resolve, reject) => {
             randomBytes(64, (error, buffer) => {
                 if (error) {

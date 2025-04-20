@@ -9,10 +9,10 @@ export class AuthController {
     constructor(
         private readonly authService: AuthService,
         private readonly oauth2Service: OAuth2Service
-    ) {}
+    ) { }
 
     @Get('authorize')
-    @Redirect('/auth/login', 302)
+    @Redirect('/login', 302)
     async authorize(@Req() req, @Res() res: Response) {
         req.session.authRequest = {
             "client_id": req.query.client_id,
@@ -22,24 +22,16 @@ export class AuthController {
         };
     }
 
-    // @Get('login')
-    // async login(@Request() req, @Res() res) {
-    //     console.log(req.session.authRequest);
-    //     res.sendFile(
-    //         join(__dirname, '..', '..', 'public', 'angular-login', 'index.html'),
-    //       );
-    // }
-
     @Post('login')
-    async login(@Request() req, @Res() res: Response) {
-        console.log(req.body);
+    async login(@Req() req, @Res() res: Response) {
         try {
             // const user = await this.authService.validateUser(req.body.username, req.body.password);
-            // const authorization_code = this.oauth2Service.getOAuth2AuthorizationCode(req.cookies.session_id);
-            const authorization_code = "a"
+            const authorization_code = await this.oauth2Service.generateAuthorizationCode();
 
-            res.redirect(302, `${req.session.authRequest.redirect_uri}?code=${authorization_code}&state=${req.session.authRequest.state}`);
-            // return res.status(200).json({ authorization_code: authorization_code});
+            req.session.code = authorization_code;
+            res.status(200).json({
+                redirectTo: `${req.session.authRequest.redirect_uri}?code=${authorization_code}&state=${req.session.authRequest.state}`
+            })
         } catch (error) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
@@ -47,7 +39,7 @@ export class AuthController {
 
     @Get('certs')
     async certs(@Request() req) {
-  
+
     }
 
 

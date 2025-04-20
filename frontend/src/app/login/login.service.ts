@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 
 
 
@@ -13,7 +14,14 @@ export class LoginService {
   public async login(username: string, password: string): Promise<void> {
     const credentials = { username: username, password: await this.sha256(password) };
 
-    const res = await this.http.post('/auth/login', credentials, { withCredentials: true }).toPromise();
+    const res: HttpResponse<{ redirectTo: string }> = await firstValueFrom(
+      this.http.post<{ redirectTo: string }>('/auth/login', credentials, { observe: 'response' })
+    );
+
+    if (res.status === 200 && res.body?.redirectTo) {
+      window.location.href = res.body?.redirectTo;
+    }
+
   }
 
   private sha256(str: string): Promise<string> {
