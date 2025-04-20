@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
+import { randomBytes } from 'node:crypto';
+
 import Redis from 'ioredis';
 
 import * as connectRedis from 'connect-redis';
@@ -17,13 +19,10 @@ async function bootstrap() {
   app.use(cookieParser());
   app.use(session({
     cookie: { 
-      maxAge: 3 * 60 * 1000, // 3 minutes
-      secure: true, 
-      httpOnly: true, 
-      sameSite: 'strict' 
+      maxAge: 3 * 60 * 1000, // 3 minutes 
     },
     resave: false,
-    secret: 'your-secret-key',
+    secret: randomBytes(32).toString('hex'),
     saveUninitialized: false,
     store: new RedisStore({
       client: redisClient
