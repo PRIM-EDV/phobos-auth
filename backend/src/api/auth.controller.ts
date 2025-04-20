@@ -32,11 +32,13 @@ export class AuthController {
 
     @Post('login')
     async login(@Request() req, @Res() res: Response) {
+        console.log(req.body);
         try {
-            const user = await this.authService.validateUser(req.body.username, req.body.password);
-            const authorization_code = this.oauth2Service.getOAuth2AuthorizationCode(req.cookies.session_id);
+            // const user = await this.authService.validateUser(req.body.username, req.body.password);
+            // const authorization_code = this.oauth2Service.getOAuth2AuthorizationCode(req.cookies.session_id);
+            const authorization_code = "a"
 
-            res.redirect(`${req.session.authRequest.redirect_uri}?code=${authorization_code}&state=${req.session.authRequest.state}`);
+            res.redirect(302, `${req.session.authRequest.redirect_uri}?code=${authorization_code}&state=${req.session.authRequest.state}`);
             // return res.status(200).json({ authorization_code: authorization_code});
         } catch (error) {
             return res.status(401).json({ message: 'Unauthorized' });
