@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Request, Res } from '@nestjs/common';
+import { Controller, Get, Post, Redirect, Req, Request, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from '../core/auth/auth.service';
 import { OAuth2Service } from 'src/core/auth/oauth2.service';
@@ -12,6 +12,7 @@ export class AuthController {
     ) {}
 
     @Get('authorize')
+    @Redirect('/auth/login', 302)
     async authorize(@Req() req, @Res() res: Response) {
         req.session.authRequest = {
             "client_id": req.query.client_id,
@@ -19,17 +20,18 @@ export class AuthController {
             "state": req.query.state,
             "code_challenge": req.query.code_challenge
         };
-
-        res.redirect("/auth/login");
     }
 
-    @Get('login')
-    async login(@Request() req, @Res() res) {
-
-    }
+    // @Get('login')
+    // async login(@Request() req, @Res() res) {
+    //     console.log(req.session.authRequest);
+    //     res.sendFile(
+    //         join(__dirname, '..', '..', 'public', 'angular-login', 'index.html'),
+    //       );
+    // }
 
     @Post('login')
-    async signIn(@Request() req, @Res() res: Response) {
+    async login(@Request() req, @Res() res: Response) {
         try {
             const user = await this.authService.validateUser(req.body.username, req.body.password);
             const authorization_code = this.oauth2Service.getOAuth2AuthorizationCode(req.cookies.session_id);

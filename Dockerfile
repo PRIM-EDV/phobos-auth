@@ -21,7 +21,7 @@ ENV TZ="Europe/Berlin"
 
 # RUN apt update && apt install protobuf-compiler -y
 
-EXPOSE 3100
+EXPOSE 3000
 WORKDIR /opt/auth/backend
 
 # Install server source dependancies
@@ -36,7 +36,7 @@ COPY ./backend/src ./src
 # RUN npm run proto:generate
 
 # Get webapp artifact
-COPY --from=frontend /opt/auth/frontend/dist/phobos-auth/browser ./dist/public
+COPY --from=frontend /opt/auth/frontend/dist/phobos-auth/browser ./public
 
 # Run startscript
 CMD npm run start

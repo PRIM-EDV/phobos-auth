@@ -30,7 +30,7 @@ export class OAuth2Service {
         // } else {
         //     throw new Error('Session not found');
         // }
-        return 
+        return authorization_code
     }
 
     /**

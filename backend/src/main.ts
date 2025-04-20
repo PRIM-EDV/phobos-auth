@@ -15,6 +15,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const redisClient = new Redis(`${REDIS_DB_HOST}`);
 
+  app.enableCors();
+
   app.use(cookieParser());
   app.use(session({
     cookie: { 
