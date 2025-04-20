@@ -26,6 +26,7 @@ services:
       - jwt_public_key
     environment:
       - MONGO_DB_HOST=db
+      - REDIS_DB_HOST=redis
 
 secrets:
   jwt_private_key:

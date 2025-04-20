@@ -4,17 +4,16 @@ import { AppModule } from './app.module';
 import { randomBytes } from 'node:crypto';
 
 import Redis from 'ioredis';
+import RedisStore from 'connect-redis';
 
-import * as connectRedis from 'connect-redis';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 
+const REDIS_DB_HOST = process.env.REDIS_DB_HOST ? process.env.REDIS_DB_HOST : 'localhost:6379'
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  // Set up Redis session store
-  const RedisStore = connectRedis(session);
-  const redisClient = new Redis();
+  const redisClient = new Redis(`${REDIS_DB_HOST}`);
 
   app.use(cookieParser());
   app.use(session({
