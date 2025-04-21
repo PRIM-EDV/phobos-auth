@@ -9,7 +9,7 @@ import { User } from "src/core/auth/models/user";
 export class UserRepository implements IUserRepository {
 
     constructor(
-        @InjectModel("UserDbo") private userModel: Model<UserDocument>
+        @InjectModel("Users") private userModel: Model<UserDocument>
     ) {}
 
     public async delete(username: string): Promise<void> {

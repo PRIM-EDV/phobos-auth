@@ -5,7 +5,7 @@ import { UserDbo, UserSchema } from './schemas/user.schema';
 
 @Module({
     imports: [
-        MongooseModule.forFeature([{ name: UserDbo.name, schema: UserSchema }])
+        MongooseModule.forFeature([{ name: "Users", schema: UserSchema }])
     ],
     providers: [{
         provide: "UserRepository",

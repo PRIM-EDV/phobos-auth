@@ -2,10 +2,11 @@
 services:
   db:
     image: mongo:8.0
-    # ports:
-    #   - "27017:27017"
+    ports:
+      - "27018:27017"
     volumes:
       - ./data/db:/data/db
+      - ./docker-entrypoint-initdb.js:/docker-entrypoint-initdb.d/docker-entrypoint-initdb.js:ro
   redis:
     image: redis:7.0
     volumes:
