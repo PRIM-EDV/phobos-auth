@@ -8,15 +8,20 @@ import RedisStore from 'connect-redis';
 
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
+import { WinstonLogger } from './infrastructure/logger/winston/winston.logger';
 
 const REDIS_DB_HOST = process.env.REDIS_DB_HOST ? process.env.REDIS_DB_HOST : 'localhost:6379'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
+  });
+
+  const logger = await app.resolve(WinstonLogger);
   const redisClient = new Redis(`${REDIS_DB_HOST}`);
 
   app.enableCors();
-
+  app.useLogger(logger);
   app.use(cookieParser());
   app.use(session({
     cookie: { 

@@ -1,15 +1,20 @@
 import { Controller, Get, Post, Redirect, Req, Request, Res } from '@nestjs/common';
 import { Response } from 'express';
-import { AuthService } from '../core/auth/auth.service';
+
+import { AuthService } from 'src/core/auth/auth.service';
 import { OAuth2Service } from 'src/core/auth/oauth2.service';
+import { WinstonLogger } from 'src/infrastructure/logger/winston/winston.logger';
 
 @Controller('/auth')
 export class AuthController {
 
     constructor(
         private readonly authService: AuthService,
-        private readonly oauth2Service: OAuth2Service
-    ) { }
+        private readonly oauth2Service: OAuth2Service,
+        private readonly logger: WinstonLogger
+    ) {
+        this.logger.setContext(this.constructor.name);
+     }
 
     @Get('authorize')
     @Redirect('/login', 302)
@@ -46,6 +51,6 @@ export class AuthController {
 
     @Get('token')
     async token(@Request() req) {
-        // Check coode challenge and redirect uri
+
     }
 }

@@ -11,6 +11,7 @@ import { AuthModule } from './core/auth/auth.module';
 // Controllers
 import { AuthController } from './api/auth.controller';
 import { UserController } from './api/user.controller';
+import { WinstonLoggerModule } from './infrastructure/logger/winston/winston.logger.module';
 
 const MONGO_DB_HOST = process.env.MONGO_DB_HOST ? process.env.MONGO_DB_HOST : 'localhost'
 
@@ -21,7 +22,8 @@ const MONGO_DB_HOST = process.env.MONGO_DB_HOST ? process.env.MONGO_DB_HOST : 'l
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
       exclude: ['/auth/'],
-    })
+    }),
+    WinstonLoggerModule
   ],
   controllers: [
     AppController,
