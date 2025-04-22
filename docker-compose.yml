@@ -2,11 +2,12 @@
 services:
   db:
     image: mongo:8.0
-    ports:
-      - "27018:27017"
+    # ports:
+    #   - "27018:27017"
     volumes:
       - ./data/db:/data/db
       - ./docker-entrypoint-initdb.js:/docker-entrypoint-initdb.d/docker-entrypoint-initdb.js:ro
+    command: --quiet
   redis:
     image: redis:7.0
     volumes:
@@ -19,6 +20,8 @@ services:
     container_name: "phobos-auth"
     ports:
       - "3000:3000"
+    volumes:
+      - ./logs:/logs
     depends_on:
       - db
       - redis

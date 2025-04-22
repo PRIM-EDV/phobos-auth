@@ -12,12 +12,14 @@ import { AuthModule } from './core/auth/auth.module';
 import { AuthController } from './api/auth.controller';
 import { UserController } from './api/user.controller';
 import { WinstonLoggerModule } from './infrastructure/logger/winston/winston.logger.module';
+import { OAuth2Module } from './core/oauth2/oauth2.module';
 
 const MONGO_DB_HOST = process.env.MONGO_DB_HOST ? process.env.MONGO_DB_HOST : 'localhost'
 
 @Module({
   imports: [
     AuthModule,
+    OAuth2Module,
     MongooseModule.forRoot(`mongodb://${MONGO_DB_HOST}/nest`),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),

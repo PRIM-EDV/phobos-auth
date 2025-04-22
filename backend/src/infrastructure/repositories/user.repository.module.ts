@@ -16,4 +16,4 @@ import { UserDbo, UserSchema } from './schemas/user.schema';
         useClass: UserRepository
     }]
 })
-export class USerRepositoryModule { }
+export class UserRepositoryModule { }
