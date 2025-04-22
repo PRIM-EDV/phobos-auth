@@ -13,14 +13,14 @@ export class WinstonLoggerService {
     }
 
     public error(message: string, context: string) {
-        this.logger.error(message);
+        this.logger.error(message, { context: context });
     }
 
     public debug(message: string, context: string) {
-        this.logger.debug(message);
+        this.logger.debug(message, { context: context });
     }
 
     public warn(message: string, context: string) {
-        this.logger.warn(message);
+        this.logger.warn(message, { context: context });
     }
 }

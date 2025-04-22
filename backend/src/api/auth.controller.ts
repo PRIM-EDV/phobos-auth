@@ -38,7 +38,7 @@ export class AuthController {
                 redirectTo: `${req.session.authRequest.redirect_uri}?code=${authorization_code}&state=${req.session.authRequest.state}`
             })
         } catch (error) {
-            console.error(error);
+            this.logger.error('Error during login', error);
             return res.status(401).json({ message: 'Unauthorized' });
         }
     }
@@ -46,6 +46,11 @@ export class AuthController {
     @Get('certs')
     async certs(@Request() req) {
 
+    }
+
+    @Get('session')
+    async session(@Request() req, @Res() res): Promise<boolean> {
+        return res.status(200).json({session: req.session ? true : false});
     }
 
 
