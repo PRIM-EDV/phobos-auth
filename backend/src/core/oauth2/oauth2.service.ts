@@ -14,6 +14,9 @@ const JWT_PRIVATE_KEY = readFileSync('/run/secrets/jwt_private_key', 'utf8');
 @Injectable()
 export class OAuth2Service {
 
+    public readonly publicKey: string = JWT_PUBLIC_KEY;
+    private readonly privateKey: string = JWT_PRIVATE_KEY;
+
     constructor(
         @Inject("Cache") private cache: ICache
     ) { }
@@ -72,7 +75,7 @@ export class OAuth2Service {
      */
     public async validateAccessToken(token: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
-            jwt.verify(token, JWT_PUBLIC_KEY, { algorithms: ['RS256'] }, (err, decoded) => {
+            jwt.verify(token, this.publicKey, { algorithms: ['RS256'] }, (err, decoded) => {
                 if (err) {
                     resolve(false);
                 } else {
@@ -100,7 +103,7 @@ export class OAuth2Service {
         }
 
         return new Promise((resolve, reject) => {
-            jwt.sign(token, JWT_PRIVATE_KEY, { algorithm: 'RS256' }, (err, token) => {
+            jwt.sign(token, this.privateKey, { algorithm: 'RS256' }, (err, token) => {
                 if (err) {
                     reject(err);
                 } else {
