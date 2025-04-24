@@ -45,7 +45,19 @@ export class AuthController {
 
     @Get('certs')
     async certs(@Request() req) {
-
+        const publicKey = this.oauth2Service.publicKey;
+        return req.res.status(200).json({
+            keys: [
+                {
+                    kty: 'RSA',
+                    use: 'sig',
+                    alg: 'RS256',
+                    kid: '1',
+                    n: publicKey,
+                    e: 'AQAB'
+                }
+            ]
+        });
     }
 
     @Get('session')
