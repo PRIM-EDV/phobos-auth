@@ -9,6 +9,7 @@ COPY ./frontend/*.json ./
 RUN npm install
 
 # Build webapp
+COPY ./frontend/public ./public
 COPY ./frontend/lib ./lib
 COPY ./frontend/src ./src
 # COPY ./protocol ../protocol
