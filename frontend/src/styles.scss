@@ -1,22 +1,22 @@
 @font-face {
     font-family: 'Fira Code';
-    src: url('assets/fonts/FiraCode/FiraCode-Regular.ttf')
+    src: url('/fonts/FiraCode/FiraCode-Regular.ttf')
 }
 
 @font-face {
     font-family: 'Fira Code';
-    src: url('assets/fonts/FiraCode/FiraCode-Medium.ttf');
+    src: url('/fonts/FiraCode/FiraCode-Medium.ttf');
     font-weight: 500;
 }
 
 @font-face {
     font-family: 'Fira Code';
-    src: url('assets/fonts/FiraCode/FiraCode-Light.ttf');
+    src: url('/fonts/FiraCode/FiraCode-Light.ttf');
     font-weight: 300;
 }
 
 html {
-    background-image: url( 'assets/images/endless-constellation.svg' );
+    background-image: url( '/images/endless-constellation.svg' );
 }
 
 html, body {

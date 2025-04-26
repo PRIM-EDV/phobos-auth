@@ -1,5 +1,5 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 
@@ -9,6 +9,8 @@ import { firstValueFrom } from 'rxjs';
 })
 export class LoginService {
 
+  public readonly error: WritableSignal<string | null> = signal<string | null>(null);
+  
   constructor(private readonly http: HttpClient) { }
 
   /**
@@ -20,14 +22,39 @@ export class LoginService {
   public async login(username: string, password: string): Promise<void> {
     const credentials = { username: username, password: await this.sha256(password) };
 
-    const res: HttpResponse<{ redirectTo: string }> = await firstValueFrom(
-      this.http.post<{ redirectTo: string }>('/auth/login', credentials, { observe: 'response' })
-    );
+    try {
+      const res: HttpResponse<{ redirectTo: string }> = await firstValueFrom(
+        this.http.post<{ redirectTo: string }>('/auth/login', credentials, { observe: 'response' })
+      );
 
-    if (res.status === 200 && res.body?.redirectTo) {
-      window.location.href = res.body?.redirectTo;
+      if (res.status === 200 && res.body?.redirectTo) {
+        window.location.href = res.body?.redirectTo;
+      }
+    } catch (error: any) {
+      console.log(error);
+      if (error.status === 401) {
+        this.error.set('Invalid username or password.');
+      } else if (error.status === 403) {
+        this.error.set('Your login session has expired.');
+      }
     }
+  }
 
+  /**
+   * Check if the user has a valid server-side session.
+   * 
+   * @returns {Promise<boolean>} - True if the user has a valid session, false otherwise
+   */
+  public async hasValidSession(): Promise<boolean> {
+    try {
+      const res = await firstValueFrom(
+        this.http.get<{ session: boolean }>('/auth/session', { observe: 'response' })
+      );
+      console.log(res);
+      return res.status === 200 && res.body?.session || false;
+    } catch (error: any) {
+      return false;
+    }
   }
 
   /**
