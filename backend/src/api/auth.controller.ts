@@ -1,5 +1,7 @@
 import { Body, Controller, Get, Post, Redirect, Req, Request, Res } from '@nestjs/common';
 import { Response } from 'express';
+import { SessionExpiredError } from 'src/common/error/session-expired.error';
+import { UnauthorizedError } from 'src/common/error/unauthorized.error';
 
 import { AuthService } from 'src/core/auth/auth.service';
 import { OAuth2Service } from 'src/core/oauth2/oauth2.service';
@@ -30,7 +32,11 @@ export class AuthController {
     @Post('login')
     async login(@Req() req, @Res() res: Response) {
         try {
-            const challenge = req.session.authRequest.challenge;
+            const challenge = req.session?.authRequest?.challenge;
+            if (!challenge) {
+                throw new SessionExpiredError('Session expired.');
+            }
+
             const user = await this.authService.validateUser(req.body.username, req.body.password);
             const code = await this.oauth2Service.generateAuthorizationCodeGrant(challenge, user.username, user.role);
 
@@ -38,8 +44,17 @@ export class AuthController {
                 redirectTo: `${req.session.authRequest.redirectUri}?code=${code}&state=${req.session.authRequest.state}`
             })
         } catch (error) {
-            this.logger.error('Error during login');
-            return res.status(401).json({ message: 'Unauthorized' });
+            switch(true) {
+                case error instanceof SessionExpiredError:
+                    this.logger.error(error.message);
+                    return res.status(403).json({ message: error.message });
+                case error instanceof UnauthorizedError:
+                    this.logger.error(error.message);
+                    return res.status(401).json({ message: `Invalid credentials for username: ${req.body?.username}` });
+                default:
+                    this.logger.error('Unknown error during login');
+                    return res.status(500).json({ message: 'Internal server error' });
+            }
         }
     }
 
@@ -62,7 +77,7 @@ export class AuthController {
 
     @Get('session')
     async session(@Req() req, @Res() res): Promise<boolean> {
-        return res.status(200).json({session: req.session ? true : false});
+        return res.status(200).json({session: req.session?.authRequest ? true : false});
     }
 
 

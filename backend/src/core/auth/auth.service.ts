@@ -4,6 +4,7 @@ import * as argon2 from "argon2";
 
 import { User } from './models/user';
 import { IUserRepository } from './interfaces/user.repository.interface';
+import { UnauthorizedError } from 'src/common/error/unauthorized.error';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +19,7 @@ export class AuthService {
         if (user && await argon2.verify(user.password, password)) {
             return user;
         } else {
-            throw new Error('Invalid credentials');
+            throw new UnauthorizedError('Invalid credentials');
         }
     }
 }

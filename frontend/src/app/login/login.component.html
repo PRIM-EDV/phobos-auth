@@ -1,11 +1,19 @@
-<ph-window [title]="'Authentication'">
-    <ph-form tabindex="0" (keydown.enter)="login()">
-        <ph-input [label]="'USERID'" [(value)]="this.username"></ph-input>
-        <ph-input [label]="'PASSWORD'" [type]="'password'" [(value)]="this.password"></ph-input>
-    </ph-form>
-    <ph-button-list>
-        <ph-button (click)="login()">
-            LOGIN
-        </ph-button>
-    </ph-button-list>
-</ph-window>
+@if (this.hasValidSession) {
+    <ph-window [title]="'Authentication'">
+        <ph-form tabindex="0" (keydown.enter)="login()">
+            @if (loginService.error()) {
+                <ph-error style="text-align: center;">{{loginService.error()}}</ph-error>
+            }
+            <ph-input [label]="'USERID'" [(value)]="this.username"></ph-input>
+            <ph-input [label]="'PASSWORD'" [type]="'password'" [(value)]="this.password"></ph-input>
+        </ph-form>
+        <ph-button-list>
+            <ph-button (click)="login()">
+                LOGIN
+            </ph-button>
+        </ph-button-list>
+    </ph-window>
+} @else {
+    
+}
+
