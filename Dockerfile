@@ -1,4 +1,4 @@
-FROM node:22.14.0 AS frontend
+FROM node:23.11.0-slim AS frontend
 
 # RUN apt update && apt install protobuf-compiler -y 
 
@@ -17,7 +17,7 @@ COPY ./frontend/src ./src
 # RUN npm run proto:generate
 RUN npm run build
 
-FROM node:22.14.0 AS server
+FROM node:23.11.0-slim AS backend
 ENV TZ="Europe/Berlin"
 
 # RUN apt update && apt install protobuf-compiler -y
