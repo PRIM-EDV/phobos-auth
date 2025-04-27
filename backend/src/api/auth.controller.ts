@@ -7,6 +7,8 @@ import { AuthService } from 'src/core/auth/auth.service';
 import { OAuth2Service } from 'src/core/oauth2/oauth2.service';
 import { WinstonLogger } from 'src/infrastructure/logger/winston/winston.logger';
 
+import * as jose from 'jose';
+
 @Controller('/auth')
 export class AuthController {
 
@@ -59,18 +61,13 @@ export class AuthController {
     }
 
     @Get('certs')
-    async certs(@Request() req) {
-        const publicKey = this.oauth2Service.publicKey;
-        return req.res.status(200).json({
+    async certs(@Res() res) {
+        const publicKey = await jose.importSPKI(this.oauth2Service.publicKey, 'RS256');
+        const jwk = await jose.exportJWK(publicKey);
+
+        return res.status(200).json({
             keys: [
-                {
-                    kty: 'RSA',
-                    use: 'sig',
-                    alg: 'RS256',
-                    kid: '1',
-                    n: publicKey,
-                    e: 'AQAB'
-                }
+                jwk
             ]
         });
     }

@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { randomBytes } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
-import * as jwt from 'jsonwebtoken';
+import * as jose from 'jose';
 
 import { ICache } from '../common/interfaces/cache.interface';
 import { OAuth2Session } from './interfaces/oauth2-session.interface';
@@ -74,15 +74,14 @@ export class OAuth2Service {
      * @returns {Promise<boolean>} - True if the token is valid, false otherwise.
      */
     public async validateAccessToken(token: string): Promise<boolean> {
-        return new Promise((resolve, reject) => {
-            jwt.verify(token, this.publicKey, { algorithms: ['RS256'] }, (err, decoded) => {
-                if (err) {
-                    resolve(false);
-                } else {
-                    resolve(true);
-                }
-            });
-        });
+        const publicKey = await jose.importSPKI(this.publicKey, 'RS256');
+
+        try {
+            await jose.jwtVerify(token, publicKey);
+            return true;
+        } catch (error) {
+            return false;
+        }
     }
 
     /**
@@ -101,16 +100,9 @@ export class OAuth2Service {
             iat: Math.floor(Date.now() / 1000),
             scope: scope,
         }
-
-        return new Promise((resolve, reject) => {
-            jwt.sign(token, this.privateKey, { algorithm: 'RS256' }, (err, token) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(token);
-                }
-            });
-        });
+        const privateKey = await jose.importPKCS8(this.privateKey, 'RS256');
+        
+        return await new jose.SignJWT(token).setProtectedHeader({ alg: 'RS256' }).sign(privateKey);
     }
 
     /**
