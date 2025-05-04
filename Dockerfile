@@ -22,7 +22,6 @@ ENV TZ="Europe/Berlin"
 
 # RUN apt update && apt install protobuf-compiler -y
 
-EXPOSE 3000
 WORKDIR /opt/auth/backend
 
 # Install server source dependancies
