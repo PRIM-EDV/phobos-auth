@@ -80,9 +80,14 @@ export class AuthController {
 
     @Post('token')
     async token(@Body() body, @Res() res: Response) {
-        const { code, code_verifier } = body;
-        const token = await this.oauth2Service.exchangeAuthorizationCodeGrant(code, code_verifier);
-
-        return res.status(200).json({ access_token: token, token_type: 'Bearer' });
+        try {
+            const { code, code_verifier } = body;
+            const token = await this.oauth2Service.exchangeAuthorizationCodeGrant(code, code_verifier);
+    
+            return res.status(200).json({ access_token: token, token_type: 'Bearer' });   
+        } catch (error) {
+            this.logger.error(error.message);
+            return res.status(401).json({ message: error.message });
+        }
     }
 }
