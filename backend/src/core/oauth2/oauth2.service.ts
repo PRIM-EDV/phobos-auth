@@ -36,6 +36,7 @@ export class OAuth2Service {
         const session = {
             username: username,
             challenge: challenge,
+            scope: scope
         }
 
         await this.cache.set(code, session, 60 * 5); // 5 minutes expiration
