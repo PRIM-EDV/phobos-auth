@@ -1,13 +1,16 @@
 import { AfterViewInit, Component } from '@angular/core';
-
-import { PhElementsModule } from '../../../lib/phobos-elements/ph-elements.module';
+import { PhButton, PhButtonList, PhForm, PhInput, PhWindow } from '@phobos/elements';
 
 import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-login',
   imports: [
-    PhElementsModule,
+    PhWindow,
+    PhForm,
+    PhInput,
+    PhButtonList,
+    PhButton
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
