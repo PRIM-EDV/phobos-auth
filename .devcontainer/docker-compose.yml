@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mongo:8.0
+
+  app:
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
+    command: sleep infinity
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+    environment:
+      - MONGO_DB_HOST=db
+    volumes:
+      - ..:/workspace
+      - /workspace/node_modules
+      - /workspace/dist
+      - /workspace/apps/frontend/dist
+      - /workspace/apps/backend/dist
+      
+      # Basic git configuration forwarding
+      - ~/.gitconfig:/tmp/host-gitconfig:ro
+      - ~/.git-credentials:/home/node/.git-credentials:ro
+      - ~/.ssh:/home/node/.ssh:ro
