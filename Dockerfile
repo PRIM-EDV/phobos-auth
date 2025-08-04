@@ -1,42 +1,48 @@
-FROM node:23.11.0-slim AS frontend
+# ----------------------
+# Base dependencies layer
+# ----------------------
+FROM node:24.1.0-slim AS deps
+RUN apt update && apt install python3 build-essential protobuf-compiler -y
 
-# RUN apt update && apt install protobuf-compiler -y 
+WORKDIR /opt/phobos-auth
 
-WORKDIR /opt/auth/frontend
+# Copy root lerna workspace files
+COPY package*.json ./
+COPY lerna*.json ./
 
-# Install webapp source dependancies
-COPY ./frontend/*.json ./
+# Copy workspace app' package.json files
+COPY apps/backend/package.json ./apps/backend/
+COPY apps/frontend/package.json ./apps/frontend/
+
+# Copy all libraries
+COPY libs ./libs
+
 RUN npm install
 
-# Build webapp
-COPY ./frontend/public ./public
-COPY ./frontend/lib ./lib
-COPY ./frontend/src ./src
-# COPY ./protocol ../protocol
+# ----------------------
+# Frontend build
+# ----------------------
+FROM deps AS frontend
+COPY apps/frontend ./apps/frontend
+RUN npx lerna run build --scope @phobos-auth/frontend --include-dependencies
 
-# RUN npm run proto:generate
-RUN npm run build
+# ----------------------
+# Backend build
+# ----------------------
+FROM deps AS backend
+COPY apps/backend ./apps/backend
+RUN npx lerna run build --scope @phobos-auth/backend --include-dependencies
 
-FROM node:23.11.0-slim AS backend
-ENV TZ="Europe/Berlin"
+# ----------------------
+# Image
+# ----------------------
+FROM backend
 
-# RUN apt update && apt install protobuf-compiler -y
-
-WORKDIR /opt/auth/backend
-
-# Install server source dependancies
-COPY ./backend/*.json ./
-RUN npm install
-
-# Build server
-COPY ./backend/src ./src
-# COPY ./backend/lib ./lib
-# COPY ./protocol ../protocol
-
-# RUN npm run proto:generate
-
-# Get webapp artifact
-COPY --from=frontend /opt/auth/frontend/dist/phobos-auth/browser ./public
+WORKDIR /opt/phobos-auth
+COPY --from=frontend /opt/phobos-auth/apps/frontend/dist/phobos-auth/browser ./apps/backend/public
 
 # Run startscript
-CMD npm run start
+COPY ./docker-entrypoint.sh ./
+RUN chmod +x docker-entrypoint.sh
+
+CMD ["./docker-entrypoint.sh"]
