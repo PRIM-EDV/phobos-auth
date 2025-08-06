@@ -2,6 +2,11 @@ services:
   db:
     image: mongo:8.0
 
+  redis:
+    image: redis:7.0
+    volumes:
+      - ./data/redis:/data/redis
+
   app:
     build:
       context: ../
@@ -9,11 +14,13 @@ services:
     command: sleep infinity
     depends_on:
       - db
+      - redis
     ports:
       - "3000:3000"
       - "4000:4000"
     environment:
       - MONGO_DB_HOST=db
+      - REDIS_DB_HOST=redis
     volumes:
       - ..:/workspace
       - /workspace/node_modules

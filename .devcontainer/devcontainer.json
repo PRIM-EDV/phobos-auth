@@ -8,7 +8,7 @@
         "ghcr.io/devcontainers/features/git-lfs:1": {},
         "ghcr.io/devcontainers/features/github-cli:1": {}
     },
-    "postCreateCommand": "/workspace/.devcontainer/setup-git.sh",
+    "postCreateCommand": "/workspace/.devcontainer/setup-git.sh && /workspace/.devcontainer/setup-secrets.sh",
      "customizations": {
         "vscode": {
             "extensions": [
