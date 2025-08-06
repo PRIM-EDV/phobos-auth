@@ -2,10 +2,10 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
-// import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment';
 
 const AUTH_SERVER_HOSTNAME = window.location.hostname;
-const AUTH_SERVER_PORT = 4000;
+const AUTH_SERVER_PORT = environment.authApiPort || 3000;
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +50,6 @@ export class LoginService {
    */
   public async hasValidSession(): Promise<boolean> {
     try {
-      console.log(`Checking session at http://${AUTH_SERVER_HOSTNAME}:${AUTH_SERVER_PORT}/auth/session`);
       const res = await firstValueFrom(
         this.http.get<{ session: boolean }>(`http://${AUTH_SERVER_HOSTNAME}:${AUTH_SERVER_PORT}/auth/session`, { observe: 'response' })
       );

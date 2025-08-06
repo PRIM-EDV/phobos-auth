@@ -1,3 +1,3 @@
 export const environment = {
-    authApiPort: 4000,
+    authApiPort: 3000,
 };
