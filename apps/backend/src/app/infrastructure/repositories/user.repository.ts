@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { UserDocument } from "./schemas/user.schema";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { IUserRepository } from "src/core/auth/interfaces/user.repository.interface";
-import { User } from "src/core/auth/models/user";
+import { IUserRepository } from "src/app/core/auth/interfaces/user.repository.interface";
+import { User } from "src/app/core/auth/models/user";
 
 @Injectable()
 export class UserRepository implements IUserRepository {

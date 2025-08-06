@@ -1,14 +1,16 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './app/app.module';
 
 import { randomBytes } from 'node:crypto';
+
+import { WinstonLogger } from './app/infrastructure/logger/winston/winston.logger';
 
 import Redis from 'ioredis';
 import RedisStore from 'connect-redis';
 
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
-import { WinstonLogger } from './infrastructure/logger/winston/winston.logger';
+import { ConfigService } from '@nestjs/config';
 
 const REDIS_DB_HOST = process.env.REDIS_DB_HOST ? process.env.REDIS_DB_HOST : 'localhost:6379'
 
@@ -17,6 +19,7 @@ async function bootstrap() {
     bufferLogs: true,
   });
 
+  const configService = app.get<ConfigService>(ConfigService);
   const logger = await app.resolve(WinstonLogger);
   const redisClient = new Redis(`${REDIS_DB_HOST}`);
 
@@ -35,7 +38,7 @@ async function bootstrap() {
     }),
   }));
   
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(configService.get<number>('port') || 3000);
 }
 
 bootstrap();

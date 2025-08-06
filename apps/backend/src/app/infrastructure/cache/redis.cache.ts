@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { ICache } from "src/core/common/interfaces/cache.interface";
+import { ICache } from "src/app/core/common/interfaces/cache.interface";
 
 import Redis from 'ioredis';
 

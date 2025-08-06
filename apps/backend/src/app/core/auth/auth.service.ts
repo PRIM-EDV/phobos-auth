@@ -4,7 +4,7 @@ import * as argon2 from "argon2";
 
 import { User } from './models/user';
 import { IUserRepository } from './interfaces/user.repository.interface';
-import { UnauthorizedError } from 'src/common/error/unauthorized.error';
+import { UnauthorizedError } from 'src/app/common/error/unauthorized.error';
 
 @Injectable()
 export class AuthService {
