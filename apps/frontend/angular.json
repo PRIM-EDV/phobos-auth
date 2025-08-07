@@ -136,6 +136,9 @@
 					"options": {
 						"port": 3000,
 						"host": "0.0.0.0",
+						"allowedHosts": [
+							"host.docker.internal"
+						],
 						"poll": 500,
 						"watch": true,
 						"proxyConfig": "src/proxy.conf.json"
