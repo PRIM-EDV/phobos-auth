@@ -8,6 +8,6 @@ db.users.insertOne({
 
 db.users.insertOne({
   username: "tacop",
-  password: "$argon2id$v=19$m=65536,t=3,p=4$ckFjU2ZncHJJVEpQVDlYTWF2NE5QUQ$cQSE1vKQEL97KbWLB6ZzoA",
+  password: "$argon2id$v=19$m=65536,t=3,p=4$ckFjU2ZncHJJVEpQVDlYTWF2NE5QUQ$mY7k96zlJUfokJ1OREmHYA",
   role: "operator"
 });
