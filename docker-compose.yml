@@ -4,12 +4,14 @@ services:
     image: mongo:8.0
     # ports:
     #   - "27018:27017"
+    restart: always
     volumes:
       - ./data/db:/data/db
       - ./docker-entrypoint-initdb.js:/docker-entrypoint-initdb.d/docker-entrypoint-initdb.js:ro
     command: --quiet
   redis:
     image: redis:7.0
+    restart: always
     volumes:
       - ./data/redis:/data/redis
   server:
