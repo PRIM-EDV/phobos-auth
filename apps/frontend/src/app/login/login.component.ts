@@ -10,7 +10,8 @@ import { LoginService } from './login.service';
     PhForm,
     PhInput,
     PhButtonList,
-    PhButton
+    PhButton,
+    PhError
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'

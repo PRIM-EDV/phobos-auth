@@ -2,7 +2,7 @@
     <ph-window [title]="'Authentication'">
         <ph-form tabindex="0" (keydown.enter)="login()">
             @if (loginService.error()) {
-                <!-- <ph-error style="text-align: center;">{{loginService.error()}}</ph-error> -->
+                <ph-error style="text-align: center;">{{loginService.error()}}</ph-error>
             }
             <ph-input [label]="'USERID'" [(value)]="this.username"></ph-input>
             <ph-input [label]="'PASSWORD'" [type]="'password'" [(value)]="this.password"></ph-input>
