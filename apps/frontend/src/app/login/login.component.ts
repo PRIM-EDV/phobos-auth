@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { PhButton, PhButtonList, PhForm, PhInput, PhWindow } from '@phobos/elements';
+import { PhButton, PhButtonList, PhError, PhForm, PhInput, PhWindow } from '@phobos/elements';
 
 import { LoginService } from './login.service';
 

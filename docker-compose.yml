@@ -21,7 +21,7 @@ services:
     restart: always
     container_name: "phobos-auth"
     ports:
-      - "3000:3000"
+      - "${PHOBOS_AUTH_PORT:-3000}:3000"
     volumes:
       - ./logs:/logs
     depends_on:
