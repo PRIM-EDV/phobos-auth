@@ -37,7 +37,8 @@ async function bootstrap() {
       client: redisClient
     }),
   }));
-  
+
+  logger.log('Application is running on: ' + (configService.get<number>('port') || 3000));
   await app.listen(configService.get<number>('port') || 3000);
 }
 

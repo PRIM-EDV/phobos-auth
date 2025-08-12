@@ -1,3 +1,3 @@
-export const environment = {
+export default () => ( {
     port: process.env.PORT ?? 3000
-};
+});

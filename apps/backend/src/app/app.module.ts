@@ -14,6 +14,9 @@ import { UserController } from './api/user.controller';
 import { WinstonLoggerModule } from './infrastructure/logger/winston/winston.logger.module';
 import { OAuth2Module } from './core/oauth2/oauth2.module';
 
+import environment  from 'src/environments/environment';
+import environmentDevelopment from 'src/environments/environment.development';
+
 const { values } = parseArgs({
   options: {
     configuration: { type: 'string' },
@@ -21,7 +24,6 @@ const { values } = parseArgs({
 });
 
 const MONGO_DB_HOST = process.env.MONGO_DB_HOST ? process.env.MONGO_DB_HOST : 'localhost'
-const ENV_FILE = values.configuration == "development" ? 'environment.development.ts' : 'environment.ts';
 
 @Module({
   imports: [
@@ -34,7 +36,7 @@ const ENV_FILE = values.configuration == "development" ? 'environment.developmen
     }),
     WinstonLoggerModule,
     ConfigModule.forRoot({
-      envFilePath: `src/environments/${ENV_FILE}`,
+      load: [ values.configuration == "development" ? environmentDevelopment : environment ],
       isGlobal: true,
     })
   ],
