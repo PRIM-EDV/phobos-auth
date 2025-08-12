@@ -39,7 +39,7 @@ RUN npx lerna run build --scope @phobos-auth/backend --include-dependencies
 FROM backend
 
 WORKDIR /opt/phobos-auth
-COPY --from=frontend /opt/phobos-auth/apps/frontend/dist/phobos-auth/browser ./apps/backend/public
+COPY --from=frontend /opt/phobos-auth/apps/frontend/dist/phobos-auth/browser ./apps/backend/dist/public
 
 # Run startscript
 COPY ./docker-entrypoint.sh ./
