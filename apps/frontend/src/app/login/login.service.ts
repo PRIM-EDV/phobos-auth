@@ -2,11 +2,6 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
-import { environment } from '../../environments/environment';
-
-const AUTH_SERVER_HOSTNAME = window.location.hostname;
-const AUTH_SERVER_PORT = environment.authApiPort || 3000;
-
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +22,7 @@ export class LoginService {
 
     try {
       const res: HttpResponse<{ redirectTo: string }> = await firstValueFrom(
-        this.http.post<{ redirectTo: string }>(`http://${AUTH_SERVER_HOSTNAME}:${AUTH_SERVER_PORT}/auth/login`, credentials, { observe: 'response' })
+        this.http.post<{ redirectTo: string }>(`${window.location.origin}/auth/login`, credentials, { observe: 'response' })
       );
 
       if (res.status === 200 && res.body?.redirectTo) {
@@ -51,7 +46,7 @@ export class LoginService {
   public async hasValidSession(): Promise<boolean> {
     try {
       const res = await firstValueFrom(
-        this.http.get<{ session: boolean }>(`http://${AUTH_SERVER_HOSTNAME}:${AUTH_SERVER_PORT}/auth/session`, { observe: 'response' })
+        this.http.get<{ session: boolean }>(`${window.location.origin}/auth/session`, { observe: 'response' })
       );
       console.log(res);
       return res.status === 200 && res.body?.session || false;
