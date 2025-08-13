@@ -15,7 +15,7 @@ PhobosAuth is a full-stack authentication system providing a secure and scalable
 1. Clone the repository:
 
     ```
-    git clone https://github.com/your-username/phobos-auth.git
+    git clone https://github.com/PRIM-EDV/phobos-auth.git
     cd phobos-auth
     ```
 
