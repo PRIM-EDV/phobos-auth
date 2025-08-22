@@ -4,5 +4,11 @@
     "secure": false,
     "changeOrigin": true,
     "withCredentials": true
+  },
+  "/user": {
+    "target": "http://localhost:4000",
+    "secure": false,
+    "changeOrigin": true,
+    "withCredentials": true
   }
 }

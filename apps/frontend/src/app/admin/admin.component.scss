@@ -1,0 +1,16 @@
+:host {
+    flex-grow: 1;
+}
+
+ph-button {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+div.content {
+    background-color: #1e1e1e;
+}
+
+tr:not(:first-child):hover {
+    background-color: #252525;
+}
