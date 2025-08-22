@@ -1,0 +1,15 @@
+<ph-window #createPopup [title]="'EDIT USER'" style="position: absolute; min-width: 512px;">
+     <ph-form >
+        <ph-dropdown [label]="'Role'" [(value)]="data.user.role">
+          <ph-dropdown-item [value]="'admin'" [label]="'admin'"></ph-dropdown-item>
+          <ph-dropdown-item [value]="'sl'" [label]="'sl'"></ph-dropdown-item>
+          <ph-dropdown-item [value]="'operator'" [label]="'operator'"></ph-dropdown-item>
+          <ph-dropdown-item [value]="'user'" [label]="'user'"></ph-dropdown-item>
+        </ph-dropdown>
+    </ph-form>
+
+    <ph-button-list>
+        <ph-button (click)="submit()">APPLY</ph-button>
+        <ph-button (click)="cancel()">CANCEL</ph-button>
+    </ph-button-list>
+</ph-window>

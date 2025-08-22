@@ -4,7 +4,7 @@
             <tr>
                 <th style="width: 128px;">Username</th>
                 <th>Role</th>
-                <th style="width: 124px;">Command</th>
+                <th style="width: 122px;">Command</th>
             </tr>
             @for(user of user.users(); track user; let idx = $index)
             {
@@ -18,5 +18,10 @@
             </tr>
             }
         </ph-table>
+
     </div>
+    <ph-button-list>
+        <ph-button [isActive]="true">NEW</ph-button>
+    </ph-button-list>
 </ph-window>
+<app-dialog></app-dialog>
