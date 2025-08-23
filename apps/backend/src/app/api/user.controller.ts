@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Request, Res } from '@nestjs/common';
+import { Controller, Get, Post, Request, Res, UseGuards } from '@nestjs/common';
 
 import { UserService } from '../core/auth/user.service';
+import { RolesGuard } from '../common/guards/roles.guards';
 
 @Controller('/user')
+@UseGuards(RolesGuard)
 export class UserController {
 
     constructor(private readonly users: UserService) {}
@@ -16,5 +18,12 @@ export class UserController {
                 role: user.role
             };
         }))
+    }
+
+    @Post()
+    async upsert(@Request() req, @Res() res) {
+        const user = req.body;
+
+        console.log(user);
     }
 }

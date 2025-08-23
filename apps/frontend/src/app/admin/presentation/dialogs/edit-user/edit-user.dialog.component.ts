@@ -32,15 +32,15 @@ export class EditUserDialogComponent implements Dialog, OnInit, AfterViewInit {
   }
 
   close(result: any = null) {
-    // if (result) {
-    //   return this.squad;
-    // } else {
-    //   return null;
-    // }
+    if (result) {
+      return this.data.user;
+    } else {
+      return null;
+    }
   }
 
   public submit() {
-    // this.close(this.squad);
+    this.close(this.data.user);
   }
 
   public cancel() {

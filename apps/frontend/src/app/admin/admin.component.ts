@@ -33,6 +33,6 @@ export class AdminComponent {
 
   public async editUser(user: User): Promise<void> {
     const editedUser = await this.dialog.open(EditUserDialogComponent, { user: { ...user } });
-    console.log(editedUser);
+    this.user.setUser(editedUser);
   }
 }
