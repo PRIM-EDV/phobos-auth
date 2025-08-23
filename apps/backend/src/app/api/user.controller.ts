@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Request, Res, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Request, Res, UseGuards } from '@nestjs/common';
 
 import { UserService } from '../core/auth/user.service';
 import { RolesGuard } from '../common/guards/roles.guards';
@@ -35,12 +35,14 @@ export class UserController {
         }
 
         await this.users.setUser(user);
+        return res.status(204).send();
     }
 
-    @Post('/delete')
+    @Delete()
     @Roles(['admin'])
     async delete(@Request() req, @Res() res) {
         const user = req.body;
         await this.users.deleteUser(user.username);
+        return res.status(204).send();
     }
 }

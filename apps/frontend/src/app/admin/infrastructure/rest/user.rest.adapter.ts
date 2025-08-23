@@ -24,6 +24,12 @@ export class UserRestAdapter {
   @Optional() @Inject(TOKEN_SERVICE_TOKEN) private tokenService: ITokenService
  ) {}
 
+ public async deleteUser(username: string) {
+   const headers = { 'Authorization': `Bearer ${this.tokenService?.accessToken()}` };
+
+   await firstValueFrom(this.http.delete(`${REST_URL}/user`, { headers, body: { username } }));
+ }
+
  public async getUsers() {
     const headers = { 'Authorization': `Bearer ${this.tokenService?.accessToken()}` };
 

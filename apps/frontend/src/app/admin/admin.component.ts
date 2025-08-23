@@ -28,10 +28,8 @@ export class AdminComponent {
     private hash: HashService
   ) {}
 
-  public deleteUser(user: User): void {
-    // this.user.deleteUser(user.id).subscribe(() => {
-    //   this.user.loadUsers();
-    // });
+  public async deleteUser(user: User): Promise<void> {
+    await this.user.deleteUser(user.username);
   }
 
   public async editUser(user: User): Promise<void> {
