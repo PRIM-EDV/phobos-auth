@@ -7,17 +7,20 @@ import { PhElementsModule } from "../../../../../../libs/phobos-elements/ph-elem
 
 
 @Component({
-  selector: "user-edit-dialog",
+  selector: "user-new-dialog",
   standalone: true,
-  templateUrl: "./edit-user.dialog.component.html",
-  styleUrls: ["./edit-user.dialog.component.scss"],
+  templateUrl: "./new-user.dialog.component.html",
+  styleUrls: ["./new-user.dialog.component.scss"],
   imports: [PhButton, PhButtonList, PhForm, PhWindow, PhDropdown, PhDropdownItem, PhElementsModule],
 })
-export class EditUserDialogComponent implements Dialog, OnInit, AfterViewInit {
+export class NewUserDialogComponent implements Dialog, OnInit {
   @ViewChild(PhWindow) window!: PhWindow;
 
-  public data!: { user: User };
-  public user!: User;
+  public data?: any;
+  public user: User = {
+    username: '',
+    role: 'admin'
+  }
 
   public password = '';
   public passwordRepeated = '';
@@ -25,14 +28,7 @@ export class EditUserDialogComponent implements Dialog, OnInit, AfterViewInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.user = this.data.user;
-  }
 
-  ngAfterViewInit(): void {
-    // if (this.data.position) {
-    //   this.window.ref.nativeElement.style.top = `${this.data.position.y}px`;
-    //   this.window.ref.nativeElement.style.left = `${this.data.position.x}px`;
-    // }
   }
 
   close(result: any = null) {

@@ -1,5 +1,6 @@
-<ph-window #createPopup [title]="'EDIT USER'" style="position: absolute; min-width: 512px;">
+<ph-window #newPopup [title]="'NEW USER'" style="position: absolute; min-width: 512px;">
      <ph-form >
+        <ph-input [label]="'Username'" [(value)]="user.username"></ph-input>
         <ph-dropdown [label]="'Role'" [(value)]="user.role">
           <ph-dropdown-item [value]="'admin'" [label]="'admin'"></ph-dropdown-item>
           <ph-dropdown-item [value]="'sl'" [label]="'sl'"></ph-dropdown-item>

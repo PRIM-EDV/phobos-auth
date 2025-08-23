@@ -2,7 +2,8 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
-import CryptoJS from "crypto-js";
+
+import { HashService } from '../common/hash.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,10 @@ export class LoginService {
 
   public readonly error: WritableSignal<string | null> = signal<string | null>(null);
   
-  constructor(private readonly http: HttpClient) { }
+  constructor(
+    private readonly hash: HashService,
+    private readonly http: HttpClient
+  ) { }
 
   /**
    * Login with the given username and password.
@@ -20,7 +24,7 @@ export class LoginService {
    * @param {string} password - The password of the user
    */
   public async login(username: string, password: string): Promise<void> {
-    const credentials = { username: username, password: await this.sha256(password) };
+    const credentials = { username: username, password: await this.hash.sha256(password) };
 
     try {
       const res: HttpResponse<{ redirectTo: string }> = await firstValueFrom(
@@ -50,45 +54,9 @@ export class LoginService {
       const res = await firstValueFrom(
         this.http.get<{ session: boolean }>(`${window.location.origin}/auth/session`, { observe: 'response' })
       );
-      console.log(res);
       return res.status === 200 && res.body?.session || false;
     } catch (error: any) {
       return false;
-    }
-  }
-
-  /**
-   * Hash the given string using SHA-256.
-   * 
-   * @param {string} str - The string to hash
-   * @returns {Promise<string>} - The hashed string
-   */
-  private async sha256(str: string): Promise<string> {
-    const hash = await this.digest(new TextEncoder().encode(str));
-    const hashArray = Array.from(new Uint8Array(hash));
-    const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
-
-    return hashHex;
-  }
-
-  /**
-   * Digest the given data using SHA-256
-   * 
-   * @param data 
-   * @returns 
-   */
-  private async digest(data: Uint8Array<ArrayBuffer>): Promise<ArrayBuffer> {
-    if (crypto.subtle && typeof crypto.subtle.digest === 'function') {
-      return crypto.subtle.digest('SHA-256', data);
-    } else {
-      const wordArray = CryptoJS.lib.WordArray.create(data);
-      const hash = CryptoJS.SHA256(wordArray);
-      const hashArray = new Uint8Array(hash.sigBytes);
-
-      for (let i = 0; i < hash.sigBytes; i++) {
-        hashArray[i] = (hash.words[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff;
-      }
-      return hashArray.buffer;
     }
   }
 }

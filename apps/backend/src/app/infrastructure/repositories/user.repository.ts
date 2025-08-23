@@ -37,12 +37,12 @@ export class UserRepository implements IUserRepository {
 
     private async upsert(user: User): Promise<void> {
         let userDbo = await this.userModel.findOne({username: user.username}).exec();
-        
-        if(userDbo) {        
-            userDbo.username = user.username;
-            userDbo.password = user.password;
-            userDbo.role = user.role;
-            await userDbo.save();            
+
+        if(userDbo) {
+            userDbo.username = user.username ? user.username : userDbo.username;
+            userDbo.password = user.password ? user.password : userDbo.password;
+            userDbo.role = user.role ? user.role : userDbo.role;
+            await userDbo.save();
         } else {
             userDbo = new this.userModel(user);
             await userDbo.save();
