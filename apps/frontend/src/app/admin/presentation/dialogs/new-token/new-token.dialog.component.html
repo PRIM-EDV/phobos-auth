@@ -1,5 +1,6 @@
-<ph-window #createPopup [title]="'EDIT USER'" style="position: absolute; min-width: 512px;">
+<ph-window #newPopup [title]="'NEW TOKEN'" style="position: absolute; min-width: 512px;">
      <ph-form >
+        <ph-input [label]="'Username'" [(value)]="user.username"></ph-input>
         <ph-dropdown [label]="'Role'" [(value)]="user.role">
           <ph-dropdown-item [value]="'admin'" [label]="'admin'"></ph-dropdown-item>
           <ph-dropdown-item [value]="'sl'" [label]="'sl'"></ph-dropdown-item>
@@ -7,10 +8,7 @@
           <ph-dropdown-item [value]="'tec'" [label]="'tec'"></ph-dropdown-item>
           <ph-dropdown-item [value]="'sci'" [label]="'sci'"></ph-dropdown-item>
         </ph-dropdown>
-        <ph-input [label]="'Password'" [(value)]="password"></ph-input>
-        <ph-input [label]="'Password Repeat'" [(value)]="passwordRepeated"></ph-input>
     </ph-form>
-
     <ph-button-list>
         <ph-button (click)="submit()">APPLY</ph-button>
         <ph-button (click)="cancel()">CANCEL</ph-button>

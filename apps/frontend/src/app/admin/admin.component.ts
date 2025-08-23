@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PhButton, PhButtonList, PhTable, PhWindow } from '@phobos/elements';
+import { PhButton, PhCommandList, PhTable, PhWindow } from '@phobos/elements';
 
 import { HashService } from '../common/hash.service';
 import { UserService } from './core/user/user.service';
@@ -8,11 +8,13 @@ import { DialogService } from './infrastructure/ui/dialog/dialog.service';
 import { EditUserDialogComponent } from './presentation/dialogs/edit-user/edit-user.dialog.component';
 import { DialogComponent } from "./infrastructure/ui/dialog/dialog.component";
 import { NewUserDialogComponent } from './presentation/dialogs/new-user/new-user.dialog.component';
+import { NewTokenDialogComponent } from './presentation/dialogs/new-token/new-token.dialog.component';
+import { UserRestAdapter } from './infrastructure/rest/user.rest.adapter';
 
 @Component({
   selector: 'app-admin',
   imports: [
-    PhButtonList,
+    PhCommandList,
     PhWindow,
     PhTable,
     PhButton,
@@ -22,9 +24,13 @@ import { NewUserDialogComponent } from './presentation/dialogs/new-user/new-user
   styleUrl: './admin.component.scss'
 })
 export class AdminComponent {
+
+  private link = document.createElement('a');
+
   constructor(
     public readonly user: UserService,
     private dialog: DialogService,
+    private rest: UserRestAdapter,
     private hash: HashService
   ) {}
 
@@ -42,6 +48,14 @@ export class AdminComponent {
     }
   }
 
+  public async newToken(): Promise<void> {
+    const newToken = await this.dialog.open(NewTokenDialogComponent);
+    if (newToken) {
+      const token = await this.rest.getUserToken(newToken);
+      this.downloadToken(token, `${newToken.username}-token.json`);
+    }
+  }
+
   public async newUser(): Promise<void> {
     const newUser = await this.dialog.open(NewUserDialogComponent);
     if (newUser) {
@@ -50,5 +64,15 @@ export class AdminComponent {
       }
       this.user.setUser(newUser);
     }
+  }
+
+  private downloadToken(token: string, filename: string) {
+    const blob = new Blob([JSON.stringify(token)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    this.link.href = url;
+    this.link.download = filename;
+    this.link.click();
+
+    URL.revokeObjectURL(url);
   }
 }

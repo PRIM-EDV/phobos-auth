@@ -37,6 +37,13 @@ export class UserRestAdapter {
     return users;
  }
 
+ public async getUserToken(user: User) {
+   const headers = { 'Authorization': `Bearer ${this.tokenService?.accessToken()}` };
+
+   const token = await firstValueFrom(this.http.post<string>(`${REST_URL}/user/token`, user, { headers }));
+   return token;
+ }
+
  public async setUser(user: User) {
     const headers = { 'Authorization': `Bearer ${this.tokenService?.accessToken()}` };
 

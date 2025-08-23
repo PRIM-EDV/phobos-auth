@@ -1,5 +1,4 @@
 import { Injectable, signal, WritableSignal } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
 
 import { User } from "./models/user.model";
 import { UserRestAdapter } from "../../infrastructure/rest/user.rest.adapter";
@@ -37,7 +36,6 @@ export class UserService {
           role: user.role
         });
       }
-      console.log('Updated users:', users);
       return [...users];
     });
   }

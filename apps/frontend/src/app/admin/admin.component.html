@@ -4,7 +4,7 @@
             <tr>
                 <th style="width: 128px;">Username</th>
                 <th>Role</th>
-                <th style="width: 122 px;">Command</th>
+                <th style="width: 122px;">Command</th>
             </tr>
             @for(user of user.users(); track user; let idx = $index)
             {
@@ -18,10 +18,10 @@
             </tr>
             }
         </ph-table>
-
+        <ph-command-list [label]="'CREATE'" style="margin: 4px; height:22px">
+            <ph-button (click)="newUser()" style="margin-right: 2px;">USER</ph-button>
+            <ph-button (click)="newToken()">TOKEN</ph-button>
+        </ph-command-list>
     </div>
-    <ph-button-list>
-        <ph-button [isActive]="true" (click)="newUser()">NEW</ph-button>
-    </ph-button-list>
 </ph-window>
 <app-dialog></app-dialog>

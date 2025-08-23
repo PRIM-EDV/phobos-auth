@@ -69,6 +69,27 @@ export class OAuth2Service {
     }
 
     /**
+     * Generate an access token using JWT.
+     * 
+     * @param {string} sub - The subject of the token (usually the user ID).
+     * @param {string} scope - The scope of the token (permissions granted).
+     * @returns {Promise<string>} - The generated access token.
+     */
+    public async generateAccessToken(sub: string, scope: string, exp?: number): Promise<string> {
+        const token = {
+            iss: ``,
+            sub: sub,
+            aud: [],
+            exp: exp ? exp : Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+            iat: Math.floor(Date.now() / 1000),
+            scope: scope,
+        }
+        const privateKey = await jose.importPKCS8(this.privateKey, 'RS256');
+        
+        return await new jose.SignJWT(token).setProtectedHeader({ alg: 'RS256' }).sign(privateKey);
+    }
+
+    /**
      * Validate the access token using JWT.
      * 
      * @param {string} token - The access token to validate.
@@ -83,27 +104,6 @@ export class OAuth2Service {
         } catch (error) {
             return false;
         }
-    }
-
-    /**
-     * Generate an access token using JWT.
-     * 
-     * @param {string} sub - The subject of the token (usually the user ID).
-     * @param {string} scope - The scope of the token (permissions granted).
-     * @returns {Promise<string>} - The generated access token.
-     */
-    private async generateAccessToken(sub: string, scope: string): Promise<string> {
-        const token = {
-            iss: ``,
-            sub: sub,
-            aud: [],
-            exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
-            iat: Math.floor(Date.now() / 1000),
-            scope: scope,
-        }
-        const privateKey = await jose.importPKCS8(this.privateKey, 'RS256');
-        
-        return await new jose.SignJWT(token).setProtectedHeader({ alg: 'RS256' }).sign(privateKey);
     }
 
     /**
