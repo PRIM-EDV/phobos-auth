@@ -1,11 +1,12 @@
-import { computed, Inject, Injectable, Optional, Signal, signal, WritableSignal } from "@angular/core";
-import { ITokenService, TOKEN_SERVICE_TOKEN } from "@phobos/core";
-import { User } from "../../core/user/models/user.model";
+import { computed, Inject, Injectable, Optional, Signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { ITokenService, TOKEN_SERVICE_TOKEN } from "@phobos/core";
+
+import { User } from "../../core/user/models/user.model";
 import { firstValueFrom } from "rxjs";
 
-const AUTH_SERVER_HOSTNAME =  window.location.hostname;
-const AUTH_SERVER_PORT = 4000;
+const AUTH_SERVER_HOSTNAME =  window.__env?.AUTH_SERVER_HOSTNAME ? window.__env?.AUTH_SERVER_HOSTNAME : window.location.hostname;
+const AUTH_SERVER_PORT = window.__env?.AUTH_SERVER_PORT ? window.__env?.AUTH_SERVER_PORT : 4000;
 
 const REST_PROTOCOL = window.location.protocol === 'https:' ? 'https' : 'http';
 const REST_URL = `${REST_PROTOCOL}://${AUTH_SERVER_HOSTNAME}:${AUTH_SERVER_PORT}`;
