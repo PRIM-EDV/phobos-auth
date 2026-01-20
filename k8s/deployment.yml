@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phobos-auth-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phobos-auth
+  template:
+    metadata:
+      labels:
+        app: phobos-auth
+    spec:
+      containers:
+      - name: phobos-auth
+        image: prim/phobos-auth:1.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+        env:
+        - name: REDIS_DB_HOST
+          value: "redis"
+        - name: MONGO_DB_HOST
+          value: "db"
+        volumeMounts:
+          - name: jwt-volume
+            mountPath: "/run/secrets/jwt_private_key"
+            subPath: "jwt_private_key"
+          - name: jwt-volume
+            mountPath: "/run/secrets/jwt_public_key"
+            subPath: "jwt_public_key"
+      volumes:
+      - name: jwt-volume
+        secret:
+          secretName: jwt-keys
+          items:
+          - key: jwt_private_key
+            path: jwt_private_key
+            # mode: 0400
+          - key: jwt_public_key
+            path: jwt_public_key
+            # mode: 0444
