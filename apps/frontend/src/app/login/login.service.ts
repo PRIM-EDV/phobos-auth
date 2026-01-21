@@ -28,7 +28,7 @@ export class LoginService {
 
     try {
       const res: HttpResponse<{ redirectTo: string }> = await firstValueFrom(
-        this.http.post<{ redirectTo: string }>(`${window.location.origin}/auth/login`, credentials, { observe: 'response' })
+        this.http.post<{ redirectTo: string }>(`${window.location.origin}/auth/v1/login`, credentials, { observe: 'response' })
       );
 
       if (res.status === 200 && res.body?.redirectTo) {
@@ -52,7 +52,7 @@ export class LoginService {
   public async hasValidSession(): Promise<boolean> {
     try {
       const res = await firstValueFrom(
-        this.http.get<{ session: boolean }>(`${window.location.origin}/auth/session`, { observe: 'response' })
+        this.http.get<{ session: boolean }>(`${window.location.origin}/auth/v1/session`, { observe: 'response' })
       );
       return res.status === 200 && res.body?.session || false;
     } catch (error: any) {
