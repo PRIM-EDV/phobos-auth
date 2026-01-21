@@ -29,10 +29,11 @@ const MONGO_DB_HOST = process.env.MONGO_DB_HOST ? process.env.MONGO_DB_HOST : 'l
   imports: [
     AuthModule,
     OAuth2Module,
-    MongooseModule.forRoot(`mongodb://${MONGO_DB_HOST}/nest`),
+    MongooseModule.forRoot(`mongodb://${MONGO_DB_HOST}/auth`),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
-      exclude: ['/auth/', '/user/'],
+      serveRoot: '/auth',
+      exclude: ['/auth/v1/', '/user/'],
     }),
     WinstonLoggerModule,
     ConfigModule.forRoot({
