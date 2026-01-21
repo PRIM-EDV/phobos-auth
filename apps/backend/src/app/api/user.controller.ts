@@ -9,7 +9,7 @@ import { User } from '../core/auth/models/user';
 import { OAuth2Service } from '../core/oauth2/oauth2.service';
 
 
-@Controller('/user')
+@Controller('user')
 @UseGuards(RolesGuard)
 export class UserController {
 

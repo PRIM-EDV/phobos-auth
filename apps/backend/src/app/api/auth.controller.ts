@@ -9,7 +9,7 @@ import { WinstonLogger } from 'src/app/infrastructure/logger/winston/winston.log
 
 import * as jose from 'jose';
 
-@Controller('/auth')
+@Controller('/auth/v1/')
 export class AuthController {
 
     constructor(
@@ -21,7 +21,7 @@ export class AuthController {
      }
 
     @Get('authorize')
-    @Redirect('/login', 302)
+    @Redirect('/auth/login', 302)
     async authorize(@Req() req, @Res() res: Response) {
         req.session.authRequest = {
             "clientId": req.query.client_id,
