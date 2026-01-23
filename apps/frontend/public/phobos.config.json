@@ -1,0 +1,11 @@
+{
+    "name": "ADMIN",
+    "path": "auth",
+    "roles": ["tec", "sl", "admin"],
+    "tabs": [
+        {
+            "tabName": "USER",
+            "tabPath": "user"
+        }
+    ]
+}
