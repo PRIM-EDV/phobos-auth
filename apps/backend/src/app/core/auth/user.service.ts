@@ -7,7 +7,9 @@ import { User } from './models/user';
 export class UserService {
     constructor(
         @Inject("UserRepository") private userRepository: UserRepository
-    ) {}
+    ) {
+        this.initRepository().then().catch(() => console.error);
+    }
 
     public async getUser(username: string): Promise<User> {
         return this.userRepository.get(username);
@@ -23,5 +25,16 @@ export class UserService {
 
     public async deleteUser(username: string): Promise<any> {
         return this.userRepository.delete(username);
+    }
+
+    private async initRepository(): Promise<void> {
+        if (await this.userRepository.get().then(users => users.length === 0)) {
+            const adminUser: User = {
+                username: "admin",
+                password: "$argon2id$v=19$m=65536,t=3,p=4$rAcSfgprITJPT9XMav4NPQ$oHikR9LxszOs/o5Z/tBLd2Xr8djSyAWbbffs804cgqA",
+                role: "admin"
+            };
+            await this.userRepository.store(adminUser);
+        }
     }
 }
