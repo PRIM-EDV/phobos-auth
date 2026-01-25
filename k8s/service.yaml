@@ -2,6 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: phobos-auth-service
+  labels:
+    type: mfe
+    path: /auth
 spec:
   selector:
     app: phobos-auth
