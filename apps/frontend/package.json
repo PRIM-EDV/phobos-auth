@@ -1,6 +1,6 @@
 {
   "name": "@phobos-auth/frontend",
-  "version": "1.0.1",
+  "version": "1.0.1-alpha.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -36,5 +36,8 @@
     "@angular/cli": "20.1.3",
     "@angular/compiler-cli": "20.1.3",
     "typescript": "~5.8.3"
+  },
+  "release-it": {
+    "git": false
   }
 }

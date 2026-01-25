@@ -17,7 +17,7 @@ COPY apps/frontend/package.json ./apps/frontend/
 # Copy all libraries
 COPY libs ./libs
 
-RUN npm install
+RUN --mount=type=cache,target=/root/.npm npm install --prefer-offline --no-audit
 
 # ----------------------
 # Frontend build

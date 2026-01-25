@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: phobos-auth
-        image: prim/phobos-auth:1.0.0
+        image: prim/phobos-auth:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
