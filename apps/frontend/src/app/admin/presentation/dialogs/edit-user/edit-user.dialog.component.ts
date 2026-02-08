@@ -1,9 +1,8 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { PhButton, PhButtonList, PhDropdown, PhDropdownItem, PhForm, PhWindow } from "@phobos/elements";
+import { PhButton, PhButtonList, PhDropdown, PhDropdownItem, PhForm, PhInput, PhWindow } from "@phobos/elements";
 
-import { Dialog } from "../../../infrastructure/ui/dialog/dialog.interface";
 import { User } from "../../../core/user/models/user.model";
-import { PhElementsModule } from "../../../../../../libs/phobos-elements/ph-elements.module";
+import { Dialog } from "../../../infrastructure/ui/dialog/dialog.interface";
 
 
 @Component({
@@ -11,7 +10,7 @@ import { PhElementsModule } from "../../../../../../libs/phobos-elements/ph-elem
   standalone: true,
   templateUrl: "./edit-user.dialog.component.html",
   styleUrls: ["./edit-user.dialog.component.scss"],
-  imports: [PhButton, PhButtonList, PhForm, PhWindow, PhDropdown, PhDropdownItem, PhElementsModule],
+  imports: [PhButton, PhButtonList, PhForm, PhWindow, PhDropdown, PhDropdownItem, PhInput],
 })
 export class EditUserDialogComponent implements Dialog, OnInit, AfterViewInit {
   @ViewChild(PhWindow) window!: PhWindow;
