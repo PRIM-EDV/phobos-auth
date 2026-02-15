@@ -4,7 +4,7 @@ metadata:
   name: phobos-auth-service
   labels:
     type: mfe
-    path: /auth
+    name: phobos-auth
 spec:
   selector:
     app: phobos-auth

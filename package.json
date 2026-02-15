@@ -1,6 +1,6 @@
 {
   "name": "@phobos-auth/auth",
-  "version": "1.0.1-alpha.1",
+  "version": "1.0.1-alpha.10",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -11,6 +11,8 @@
     "lerna": "lerna",
     "build": "lerna run build",
     "build:elements": "npm run build -w libs/phobos-elements",
+    "k8s:deploy": "helm upgrade --install phobos-auth ./k8s",
+    "k8s:status": "helm status phobos-auth",
     "release": "release-it --workspaces",
     "release:pre": "npm run release -- --preRelease=alpha --no-git --no-github",
     "start:frontend": "npm run start -w apps/frontend",
@@ -41,7 +43,15 @@
     "plugins": {
       "@release-it/bumper": {
         "out": [
-          "apps/*/package.json"
+          "apps/*/package.json",
+          {
+            "file": "k8s/Chart.yaml",
+            "path": "version"
+          },
+          {
+            "file": "k8s/Chart.yaml",
+            "path": "appVersion"
+          }
         ]
       }
     },

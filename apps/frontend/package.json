@@ -1,6 +1,6 @@
 {
   "name": "@phobos-auth/frontend",
-  "version": "1.0.1-alpha.1",
+  "version": "1.0.1-alpha.10",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

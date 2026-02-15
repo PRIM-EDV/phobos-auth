@@ -6,9 +6,8 @@ PhobosAuth is a full-stack authentication system providing a secure and scalable
 
 ### Prerequisites
 
-- Node.js (v23.11.0 or later)
-- Docker and Docker Compose
-- Redis and MongoDB (for local development)
+- **Helm** (v3+)
+- **Kubernetes Cluster** (local like k3d/minikube)
 
 ### Usage
 
@@ -21,7 +20,7 @@ PhobosAuth is a full-stack authentication system providing a secure and scalable
 
 2. Start the application:
     ```
-    docker compose up --build 
+    helm upgrade --install phobos-auth ./k8s
     ```
 
 ## License

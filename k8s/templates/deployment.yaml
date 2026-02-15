@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: phobos-auth
-        image: prim/phobos-auth:latest
+        image: "prim/phobos-auth:{{ .Chart.AppVersion }}"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000

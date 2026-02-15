@@ -32,8 +32,7 @@ const MONGO_DB_HOST = process.env.MONGO_DB_HOST ? process.env.MONGO_DB_HOST : 'l
     MongooseModule.forRoot(`mongodb://${MONGO_DB_HOST}/auth`),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
-      serveRoot: '/auth',
-      exclude: ['/auth/v1/', '/user/'],
+      exclude: ['/api/(.*)'],
     }),
     WinstonLoggerModule,
     ConfigModule.forRoot({

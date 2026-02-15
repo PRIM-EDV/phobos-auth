@@ -3,8 +3,6 @@ services:
     image: mongo:8.0
     volumes:
       - ../data/db:/data/db
-      - ../docker-entrypoint-initdb.js:/docker-entrypoint-initdb.d/docker-entrypoint-initdb.js:ro
-
 
   redis:
     image: redis:7.0
