@@ -23,6 +23,8 @@ spec:
           value: "redis"
         - name: MONGO_DB_HOST
           value: "db"
+        - name: BASE_PATH
+          value: "{{ .Values.mfe.path }}"
         volumeMounts:
           - name: jwt-volume
             mountPath: "/run/secrets/jwt_private_key"

@@ -9,6 +9,8 @@ import { WinstonLogger } from 'src/app/infrastructure/logger/winston/winston.log
 
 import * as jose from 'jose';
 
+const BASE_PATH = process.env.BASE_PATH || '';
+
 @Controller('/api/v1')
 export class AuthController {
 
@@ -21,7 +23,7 @@ export class AuthController {
      }
 
     @Get('authorize')
-    @Redirect('login', 302)
+    @Redirect(`${BASE_PATH}/login`, 302)
     async authorize(@Req() req, @Res() res: Response) {
         req.session.authRequest = {
             "clientId": req.query.client_id,
