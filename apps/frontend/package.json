@@ -1,6 +1,6 @@
 {
   "name": "@phobos-auth/frontend",
-  "version": "1.0.1-alpha.10",
+  "version": "1.0.1-alpha.23",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -20,7 +20,7 @@
     "@angular/platform-browser": "20.1.3",
     "@angular/platform-browser-dynamic": "20.1.3",
     "@angular/router": "20.1.3",
-    "@phobos/core": "^0.1.0",
+    "@phobos/core": "^1.2.0",
     "@phobos/elements": "^0.2.1",
     "@softarc/native-federation-node": "^2.0.10",
     "@types/crypto-js": "^4.2.2",
