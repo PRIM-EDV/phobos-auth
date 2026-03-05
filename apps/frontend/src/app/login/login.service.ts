@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable, signal, WritableSignal } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 
+import { firstValueFrom } from 'rxjs';
 
 import { HashService } from '../common/hash.service';
 
@@ -11,13 +11,12 @@ import { HashService } from '../common/hash.service';
 export class LoginService {
 
   public readonly error: WritableSignal<string | null> = signal<string | null>(null);
-  
-  constructor(
-    private readonly hash: HashService,
-    private readonly http: HttpClient
-  ) { }
 
-  /**
+  private readonly hash = inject(HashService);
+  private readonly http = inject(HttpClient);
+  private readonly backendUrl = this.getBackendUrl();
+
+  /*
    * Login with the given username and password.
    * 
    * @param {string} username - The username of the user 
@@ -28,7 +27,7 @@ export class LoginService {
 
     try {
       const res: HttpResponse<{ redirectTo: string }> = await firstValueFrom(
-        this.http.post<{ redirectTo: string }>(`${window.location.origin}/auth/v1/login`, credentials, { observe: 'response' })
+        this.http.post<{ redirectTo: string }>(`${this.backendUrl}/api/v1/login`, credentials, { observe: 'response' })
       );
 
       if (res.status === 200 && res.body?.redirectTo) {
@@ -52,11 +51,21 @@ export class LoginService {
   public async hasValidSession(): Promise<boolean> {
     try {
       const res = await firstValueFrom(
-        this.http.get<{ session: boolean }>(`${window.location.origin}/auth/v1/session`, { observe: 'response' })
+        this.http.get<{ session: boolean }>(`${this.backendUrl}/api/v1/session`, { observe: 'response' })
       );
       return res.status === 200 && res.body?.session || false;
     } catch (error: any) {
       return false;
     }
+  }
+
+  /**
+   * Get the backend URL based on the current import.meta.url.
+   * @returns {string} - The backend URL
+   */
+  private getBackendUrl(): string {
+    const origin = new URL(import.meta.url);
+    const path = origin.pathname.substring(0, origin.pathname.lastIndexOf('/'));
+    return `${origin.protocol}//${origin.host}${path}`;
   }
 }
