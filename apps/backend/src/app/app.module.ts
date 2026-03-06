@@ -3,11 +3,11 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
+import { IndexController } from '@phobos/common';
+
 import { join } from 'node:path';
 import { parseArgs } from 'node:util';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './core/auth/auth.module';
 import { AuthController } from './api/auth.controller';
 import { UserController } from './api/user.controller';
@@ -32,7 +32,7 @@ const MONGO_DB_HOST = process.env.MONGO_DB_HOST ? process.env.MONGO_DB_HOST : 'l
     MongooseModule.forRoot(`mongodb://${MONGO_DB_HOST}/auth`),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
-      exclude: ['/api'],
+      exclude: ['/api', '/index.html'],
     }),
     WinstonLoggerModule,
     ConfigModule.forRoot({
@@ -41,10 +41,9 @@ const MONGO_DB_HOST = process.env.MONGO_DB_HOST ? process.env.MONGO_DB_HOST : 'l
     })
   ],
   controllers: [
-    AppController,
     AuthController,
+    IndexController,
     UserController
-  ],
-  providers: [AppService],
+  ]
 })
 export class AppModule {}
