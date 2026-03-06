@@ -1,16 +1,16 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
+import { ConfigService } from '@nestjs/config';
+import { WinstonLogger } from '@phobos/infrastructure';
 
 import { randomBytes } from 'node:crypto';
-
-import { WinstonLogger } from './app/infrastructure/logger/winston/winston.logger';
 
 import Redis from 'ioredis';
 import RedisStore from 'connect-redis';
 
+import { AppModule } from './app/app.module';
+
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
-import { ConfigService } from '@nestjs/config';
 
 const REDIS_DB_HOST = process.env.REDIS_DB_HOST ? process.env.REDIS_DB_HOST : 'localhost:6379'
 

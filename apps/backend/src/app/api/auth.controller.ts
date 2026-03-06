@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Post, Redirect, Req, Request, Res } from '@nestjs/common';
+import { WinstonLogger } from '@phobos/infrastructure';
 import { Response } from 'express';
+
 import { SessionExpiredError } from 'src/app/common/error/session-expired.error';
 import { UnauthorizedError } from 'src/app/common/error/unauthorized.error';
-
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { OAuth2Service } from 'src/app/core/oauth2/oauth2.service';
-import { WinstonLogger } from 'src/app/infrastructure/logger/winston/winston.logger';
 
 import * as jose from 'jose';
 

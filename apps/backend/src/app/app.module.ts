@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { IndexController } from '@phobos/common';
+import { WinstonLoggerModule } from '@phobos/infrastructure';
 
 import { join } from 'node:path';
 import { parseArgs } from 'node:util';
@@ -11,7 +12,6 @@ import { parseArgs } from 'node:util';
 import { AuthModule } from './core/auth/auth.module';
 import { AuthController } from './api/auth.controller';
 import { UserController } from './api/user.controller';
-import { WinstonLoggerModule } from './infrastructure/logger/winston/winston.logger.module';
 import { OAuth2Module } from './core/oauth2/oauth2.module';
 
 import environment  from 'src/environments/environment';

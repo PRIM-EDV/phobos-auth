@@ -1,12 +1,13 @@
 import { Controller, Delete, Get, Post, Request, Res, UseGuards } from '@nestjs/common';
+import { WinstonLogger } from '@phobos/infrastructure';
 
 import { UserService } from '../core/auth/user.service';
 import { RolesGuard } from '../common/guards/roles.guards';
 import { Roles } from '../common/decorators/roles.decorator';
-
-import * as argon2 from "argon2";
 import { User } from '../core/auth/models/user';
 import { OAuth2Service } from '../core/oauth2/oauth2.service';
+
+import * as argon2 from "argon2";
 
 
 @Controller('api/v1/user')
@@ -14,9 +15,12 @@ import { OAuth2Service } from '../core/oauth2/oauth2.service';
 export class UserController {
 
     constructor(
+        private readonly logger: WinstonLogger,
         private readonly oauth2: OAuth2Service,
         private readonly users: UserService
-    ){}
+    ){
+
+    }
 
     @Post('/token')
     @Roles(['admin'])
