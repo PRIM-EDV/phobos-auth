@@ -21,7 +21,7 @@
     "@nestjs/mongoose": "^11.0.3",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/serve-static": "^5.0.3",
-    "@phobos/common": "^0.1.0",
+    "@phobos/common": "^0.1.1",
     "@phobos/infrastructure": "^0.1.0",
     "argon2": "^0.41.1",
     "connect-redis": "^7.1.1",
