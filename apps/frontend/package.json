@@ -35,7 +35,9 @@
     "@angular/build": "21.1.5",
     "@angular/cli": "21.1.5",
     "@angular/compiler-cli": "21.1.5",
-    "typescript": "~5.9.0"
+    "jsdom": "^28.1.0",
+    "typescript": "~5.9.0",
+    "vitest": "^4.0.18"
   },
   "release-it": {
     "git": false
