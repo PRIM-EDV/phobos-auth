@@ -4,7 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { IndexController } from '@phobos/common';
-import { WinstonLoggerModule } from '@phobos/infrastructure';
+import { WinstonLogger, WinstonLoggerModule } from '@phobos/infrastructure';
 
 import { join } from 'node:path';
 import { parseArgs } from 'node:util';
@@ -44,6 +44,12 @@ const MONGO_DB_HOST = process.env.MONGO_DB_HOST ? process.env.MONGO_DB_HOST : 'l
     AuthController,
     IndexController,
     UserController
-  ]
+  ],
+  providers: [
+    {
+      provide: 'APP_LOGGER',
+      useExisting: WinstonLogger
+    }
+  ],
 })
 export class AppModule {}

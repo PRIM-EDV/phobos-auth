@@ -1,23 +1,38 @@
+#-----------------------
+# Base image layer
+#-----------------------
+FROM node:24.1.0-slim AS base
+
+# ----------------------
+# Package.json layer
+# ----------------------
+FROM base AS package.json
+RUN apt-get update && apt-get install -y jq
+
+WORKDIR /opt/phobos-auth
+
+COPY package.json ./
+COPY apps/backend/package.json ./apps/backend/
+COPY apps/frontend/package.json ./apps/frontend/
+
+RUN jq 'del(.version)' package.json > package.json.slim && mv package.json.slim package.json
+RUN jq 'del(.version)' apps/backend/package.json > apps/backend/package.json.slim && mv apps/backend/package.json.slim apps/backend/package.json
+RUN jq 'del(.version)' apps/frontend/package.json > apps/frontend/package.json.slim && mv apps/frontend/package.json.slim apps/frontend/package.json
+
 # ----------------------
 # Base dependencies layer
 # ----------------------
-FROM node:24.1.0-slim AS deps
+FROM base AS deps
 RUN apt update && apt install python3 build-essential protobuf-compiler -y
 
 WORKDIR /opt/phobos-auth
 
-# Copy root lerna workspace files
-COPY package*.json ./
+COPY --from=package.json /opt/phobos-auth ./
+
 COPY lerna*.json ./
-
-# Copy workspace app' package.json files
-COPY apps/backend/package.json ./apps/backend/
-COPY apps/frontend/package.json ./apps/frontend/
-
-# Copy all libraries
 COPY libs ./libs
 
-RUN --mount=type=cache,target=/root/.npm npm install --prefer-offline --no-audit
+RUN npm install
 
 # ----------------------
 # Frontend build
