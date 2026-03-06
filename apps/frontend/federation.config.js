@@ -5,8 +5,8 @@ module.exports = withNativeFederation({
   name: 'phobos-auth',
 
   exposes: {
-    './Component': './src/app/app.component.ts',
-    './Routes': './src/app/app.routes.ts',
+    './Component': './src/app.component.ts',
+    './Routes': './src/app.routes.ts',
   },
 
   shared: {
