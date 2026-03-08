@@ -6,20 +6,9 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'admin', component: AdminComponent, data: {
         roles: ['tec', 'sl', 'admin'],
-        app: 'ADMIN',
+        view: 'ADMIN',
         tab: 'USER'
       } 
     },
     { path: '', redirectTo: '/login', pathMatch: 'full'},
 ];
-
-
-//  "name": "ADMIN",
-//     "path": "auth",
-//     "roles": ["tec", "sl", "admin"],
-//     "tabs": [
-//         {
-//             "tabName": "USER",
-//             "tabPath": "user"
-//         }
-//     ]
