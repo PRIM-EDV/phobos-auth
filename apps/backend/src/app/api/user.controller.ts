@@ -10,7 +10,7 @@ import { OAuth2Service } from '../core/oauth2/oauth2.service';
 import * as argon2 from "argon2";
 
 
-@Controller('api/v1/user')
+@Controller('/api/v1/user')
 @UseGuards(RolesGuard)
 export class UserController {
 
