@@ -8,8 +8,8 @@ import { ICache } from '../common/interfaces/cache.interface';
 import { OAuth2Session } from './interfaces/oauth2-session.interface';
 
 
-const JWT_PUBLIC_KEY = readFileSync('/run/secrets/jwt_public_key', 'utf8');
-const JWT_PRIVATE_KEY = readFileSync('/run/secrets/jwt_private_key', 'utf8');
+const JWT_PUBLIC_KEY = readFileSync('/run/secrets/jwt/jwt_public_key', 'utf8');
+const JWT_PRIVATE_KEY = readFileSync('/run/secrets/jwt/jwt_private_key', 'utf8');
 
 @Injectable()
 export class OAuth2Service {

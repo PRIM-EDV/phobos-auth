@@ -5,7 +5,7 @@ import * as jose from 'jose';
 
 import { ROLES_METADATA } from '../constants';
 
-const JWT_PUBLIC_KEY = readFileSync('/run/secrets/jwt_public_key', 'utf8');
+const JWT_PUBLIC_KEY = readFileSync('/run/secrets/jwt/jwt_public_key', 'utf8');
 
 /**
  * Guard that checks if the client is authorized to access the resource based on a JWT.

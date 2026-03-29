@@ -41,7 +41,7 @@ testem.log
 /logs
 
 # Credentials
-/secrets
+/k8s/secrets
 
 # System files
 .DS_Store
