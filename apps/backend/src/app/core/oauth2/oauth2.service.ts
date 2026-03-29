@@ -93,17 +93,11 @@ export class OAuth2Service {
      * Validate the access token using JWT.
      * 
      * @param {string} token - The access token to validate.
-     * @returns {Promise<boolean>} - True if the token is valid, false otherwise.
+     * @returns {Promise<void>} - Resolves if the token is valid, throws an error otherwise.
      */
-    public async validateAccessToken(token: string): Promise<boolean> {
+    public async validateAccessToken(token: string): Promise<void> {
         const publicKey = await jose.importSPKI(this.publicKey, 'RS256');
-
-        try {
-            await jose.jwtVerify(token, publicKey);
-            return true;
-        } catch (error) {
-            return false;
-        }
+        await jose.jwtVerify(token, publicKey);
     }
 
     /**

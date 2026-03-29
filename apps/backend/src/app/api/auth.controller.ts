@@ -92,4 +92,17 @@ export class AuthController {
             return res.status(401).json({ message: error.message });
         }
     }
+
+    @Post('verify')
+    async verify(@Body() body, @Res() res: Response) {
+        try {
+            const { token } = body;
+            await this.oauth2Service.validateAccessToken(token);
+            return res.status(200);
+        } catch (error) {
+            this.logger.error(error.message);
+            return res.status(401).json({ message: error.message });
+        }
+    }
+
 }
