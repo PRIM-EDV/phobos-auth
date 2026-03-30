@@ -98,7 +98,7 @@ export class AuthController {
         try {
             const { token } = body;
             await this.oauth2Service.validateAccessToken(token);
-            return res.status(200);
+            return res.status(200).send();
         } catch (error) {
             this.logger.error(error.message);
             return res.status(401).json({ message: error.message });
